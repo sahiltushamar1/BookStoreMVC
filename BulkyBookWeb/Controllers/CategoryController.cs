@@ -10,17 +10,17 @@ public class CategoryController : Controller
 
     public CategoryController(ApplicationDbContext db)
     {
-        _db = db;
+        this._db = db;
     }
     public IActionResult Index()
     {
-        IEnumerable<Category> objCategoryList = _db.Categories;
-        return View(objCategoryList);  
+        IEnumerable<Category> objCategoryList = this._db.Categories;
+        return this.View(objCategoryList);
     }
 
     public IActionResult Create()
     {
-        return View();
+        return this.View();
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -28,32 +28,32 @@ public class CategoryController : Controller
     {
         if(obj.Name == obj.DisplayOrder.ToString())
         {
-            ModelState.AddModelError("NameDisplayOrderSameError", "The Display Order cannot exactly match the Name!");
+            this.ModelState.AddModelError("NameDisplayOrderSameError", "The Display Order cannot exactly match the Name!");
         }
-        if (ModelState.IsValid)
+        if (this.ModelState.IsValid)
         {
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Category Created Successfully";
-            return RedirectToAction("Index");
+            this._db.Categories.Add(obj);
+            this._db.SaveChanges();
+            this.TempData["success"] = "Category Created Successfully";
+            return this.RedirectToAction("Index");
         }
-        return View(obj);
+        return this.View(obj);
     }
 
     public IActionResult Edit(int? id)
     {
         if(id == null || id == 0)
         {
-            return NotFound();
+            return this.NotFound();
         }
-        Category? categoryFromDb = _db.Categories.Find(id);
+        Category? categoryFromDb = this._db.Categories.Find(id);
         //var categoryFromDbFirst = _db.Categories.FirstOrDefault(x =>x.Id == id);
         //var categoryFromDbSingle = _db.Categories.SingleOrDefault(x => x.Id == id);
         if(categoryFromDb == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
-        return View(categoryFromDb);
+        return this.View(categoryFromDb);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -61,14 +61,14 @@ public class CategoryController : Controller
     {
         if (obj.Name == obj.DisplayOrder.ToString())
         {
-            ModelState.AddModelError("NameDisplayOrderSameError", "The Display Order cannot exactly match the Name!");
+            this.ModelState.AddModelError("NameDisplayOrderSameError", "The Display Order cannot exactly match the Name!");
         }
-        if (ModelState.IsValid)
+        if (this.ModelState.IsValid)
         {
             _db.Categories.Update(obj);
             _db.SaveChanges();
-            TempData["success"] = "Category Edited Successfully";
-            return RedirectToAction("Index");
+            this.TempData["success"] = "Category Edited Successfully";
+            return this.RedirectToAction("Index");
         }
         return View(obj);
     }
@@ -77,16 +77,16 @@ public class CategoryController : Controller
     {
         if (id == null || id == 0)
         {
-            return NotFound();
+            return this.NotFound();
         }
         Category? categoryFromDb = _db.Categories.Find(id);
         //var categoryFromDbFirst = _db.Categories.FirstOrDefault(x =>x.Id == id);
         //var categoryFromDbSingle = _db.Categories.SingleOrDefault(x => x.Id == id);
         if (categoryFromDb == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
-        return View(categoryFromDb);
+        return this.View(categoryFromDb);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -95,12 +95,12 @@ public class CategoryController : Controller
         Category? categoryFromDb = _db.Categories.Find(id);
         if(categoryFromDb == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
-        _db.Categories.Remove(categoryFromDb);
-        _db.SaveChanges();
-        TempData["success"] = "Category Deleted Successfully";
-        return RedirectToAction("Index");
+        this._db.Categories.Remove(categoryFromDb);
+        this._db.SaveChanges();
+        this.TempData["success"] = "Category Deleted Successfully";
+        return this.RedirectToAction("Index");
         
         
     }
